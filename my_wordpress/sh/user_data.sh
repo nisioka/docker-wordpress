@@ -46,8 +46,8 @@ export VPC_PROJECT="${VPC_PROJECT}"
 export VPC_ENV="${VPC_ENV}"
 EOF
 
-for PARAMS in $(echo ${SSM_PARAMETER_STORE} | jq -r '.Parameters[] | .Name + "=" + .Value'); do
-echo 'export "${PARAMS##*/}"'
+for PARAMS in $(echo ${SSM_PARAMETER_STORE} | jq -r '.Parameters[] | .Name + "=\"" + .Value + "\""'); do
+echo 'export ${PARAMS##*/}"'
 done >> "${SETENV_SHELL}"
 
 chmod +x "$SETENV_SHELL"

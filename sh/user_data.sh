@@ -7,6 +7,8 @@ yum update
 yum install -y git docker jq
 curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
+gpasswd -a ssm-user docker
+systemctl restart docker
 
 #
 # Initialize environment variables
@@ -47,7 +49,7 @@ export VPC_ENV="${VPC_ENV}"
 EOF
 
 for PARAMS in $(echo ${SSM_PARAMETER_STORE} | jq -r '.Parameters[] | .Name + "=\"" + .Value + "\""'); do
-echo 'export ${PARAMS##*/}"'
+echo "export ${PARAMS##*/}"
 done >> "${SETENV_SHELL}"
 
 chmod +x "$SETENV_SHELL"

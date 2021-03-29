@@ -21,7 +21,7 @@ services:
     volumes:
       - wp_content:/var/www/html/wp-content
       - ./modify/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
-      - ./modify/wp-config.php:/val/www/html/wp-config.php
+      - ./modify/wp-config.php:/var/www/html/wp-config.php
     ports:
       - "80:80"
     restart: always

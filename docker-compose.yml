@@ -5,6 +5,8 @@ services:
     image: mariadb:10.5.9
     volumes:
       - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -18,9 +20,10 @@ services:
     image: wordpress:5.7.0
     volumes:
       - wp_content:/var/www/html/wp-content
-      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./modify/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+      - ./modify/wp-config.php:/val/www/html/wp-config.php
     ports:
-      - "443:443"
+      - "80:80"
     restart: always
     environment:
       WORDPRESS_DB_HOST: db:3306

@@ -1,6 +1,14 @@
 #!/bin/bash
 
 #
+# swap settings.
+#
+dd if=/dev/zero of=/swapfile1 bs=1M count=1536
+chmod 600 /swapfile1
+mkswap /swapfile1
+swapon /swapfile1
+
+#
 # Install required modules.
 #
 yum update

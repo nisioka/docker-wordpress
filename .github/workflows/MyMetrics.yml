@@ -1,0 +1,28 @@
+name: Metrics
+on:
+  # Schedule daily updates
+  schedule: [{cron: "0 0 * * *"}]
+  # (optional) Run workflow manually
+  workflow_dispatch:
+  # (optional) Run workflow when pushing on master/main
+  push: {branches: ["master", "main"]}
+jobs:
+  github-metrics:
+    runs-on: ubuntu-latest
+    steps:
+      - id: variable
+        run: |
+          echo '::set-output name=MY_TIMEZONE::Asia/Tokyo'
+          echo '::set-output name=MY_RETRIES::1'
+      - uses: lowlighter/metrics@latest
+        name: pagespeed
+        with:
+          token: ${{ secrets.METRICS_TOKEN }}
+          config_timezone: ${{steps.variable.outputs.MY_TIMEZONE}}
+          retries: ${{steps.variable.outputs.MY_RETRIES}}
+          base: ""
+        
+          filename: github-metrics-pagespeed.svg
+          plugin_pagespeed: yes
+          plugin_pagespeed_screenshot: yes
+          plugin_pagespeed_url: https://sun0range.com

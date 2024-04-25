@@ -109,10 +109,14 @@ define( 'WP_DEBUG', !!getenv_docker('WORDPRESS_DEBUG', '') );
 if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
         $_SERVER['HTTPS'] = 'on';
 }
-// nishioka add start.
-$_SERVER['HTTPS'] = 'on';
-$_ENV['HTTPS'] = 'on';
-// nishioka add end.
+// 適宜書き換えたり、追記・削除したり。↓
+$_SERVER['HTTPS'] = 'off';
+$_ENV['HTTPS'] = 'off';
+define('FORCE_SSL_LOGIN',false);
+define('FORCE_SSL_ADMIN',false);
+define( 'WP_HOME', 'http://localhost' );
+define( 'WP_SITEURL', 'http://localhost' );
+// 適宜書き換えたり、追記・削除したり。↑
 
 // (we include this by default because reverse proxying is extremely common in container environments)
 

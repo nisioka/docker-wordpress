@@ -7,17 +7,18 @@ services:
       - db_data:/var/lib/mysql
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: MYSQL_ROOT_PASSWORD
+      MYSQL_DATABASE: MYSQL_DATABASE
+      MYSQL_USER: MYSQL_USER
+      MYSQL_PASSWORD: MYSQL_PASSWORD
 
   wordpress:
     depends_on:
       - db
     image: wordpress:5.7.0
     volumes:
-      - wp_content:/var/www/html/wp-content
+      - ./backup_wp-content:/var/www/html/wp-content
+      - ./Search-Replace-DB-master:/var/www/html/Search-Replace-DB-master
       - ./modify/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
       - ./modify/wp-config.php:/var/www/html/wp-config.php
     ports:
@@ -25,9 +26,33 @@ services:
     restart: always
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: MYSQL_DATABASE
+      WORDPRESS_DB_USER: MYSQL_USER
+      WORDPRESS_DB_PASSWORD: MYSQL_PASSWORD
+
+  https:
+    image: steveltn/https-portal:1
+    ports:
+      - '443:443'
+    environment:
+      STAGE: local
+      DOMAINS: 'localhost -> http://host.docker.internal:80'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  phpmyadmin:
+    depends_on:
+      - db
+    image: phpmyadmin
+    volumes:
+      - ./modify/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOSTS=db
+      - PMA_USER=root
+      - PMA_PASSWORD=MYSQL_ROOT_PASSWORD
+    ports:
+      - "3001:80"
 volumes:
   db_data: {}
   wp_content: {}

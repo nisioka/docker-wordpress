@@ -1,7 +1,7 @@
 # docker-wordpress
 
-wordpressをdocker上で動かす。  
-wordpress本体とMySql(MariaDB)をdocker-composeで接続起動させる。
+WordPressをdocker上で動かす。  
+WordPress本体とMySql(MariaDB)をdocker-composeで接続起動させる。
 
 ## in develop
 
@@ -16,7 +16,7 @@ wordpress本体とMySql(MariaDB)をdocker-composeで接続起動させる。
 
 ### 移行方法
 
-構築済みのWordpressサイトをローカルにコピーする場合、以下の手順で行う。
+構築済みのWordPressサイトをローカルにコピーする場合、以下の手順で行う。
 1. WPbukupプラグインでバックアップが取られていることを想定。
   - [backup_wp-content](backup_wp-content) にwp-contentに置くべきバックアップファイルを配置する。
   - 画像ファイルをcdnに置いてたりしている場合も落としてきて[uploads](backup_wp-content%2Fuploads)に置く。(後でDBのURL変更作業も必要)

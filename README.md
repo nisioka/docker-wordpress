@@ -29,7 +29,3 @@ wordpress本体とMySql(MariaDB)をdocker-composeで接続起動させる。
   - http://localhost/Search-Replace-DB-master でSearch-Replace-DB-master
     - 適宜コンテンツのパスを「http://localhost」に置換したりする。 
 
-
-# main site page speed
-https://sun0range.com  
-<img alt="pagespeed" src="./github-metrics-pagespeed.svg" />
